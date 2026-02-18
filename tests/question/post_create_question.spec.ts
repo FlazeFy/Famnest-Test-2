@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { expectDefaultResponseProps, expectKeyExist } from 'helpers/assertions.helper'
 
-test.describe('Question API - POST Question', () => {
+test.describe('Question API - POST Create Question', () => {
     // Test Data
     const loremData = {
         short: process.env.LOREM_SHORT,

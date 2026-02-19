@@ -8,10 +8,12 @@ test.describe('Family Sleep Time API - POST Create Family Sleep Time', () => {
     const hour_start: string = "00:30"
     const hour_end: string = "04:00"
     let userToken: string
+    let userNoFamilyToken: string
     let adminToken: string
 
     test.beforeAll(async ({ request }) => {
         userToken = await useLogin(request, 'user')
+        userNoFamilyToken = await useLogin(request, 'user_no_family')
         adminToken = await useLogin(request, 'admin')
     })
 
@@ -32,7 +34,7 @@ test.describe('Family Sleep Time API - POST Create Family Sleep Time', () => {
     })
 
     test.describe('Failed cases', () => {
-        test('should fail if the feedback is sent by admin', async ({ request }) => {
+        test('should fail if the family sleep time is sent by admin', async ({ request }) => {
             // Exec the API
             const res = await request.post(url, {
                 headers: {
@@ -43,6 +45,19 @@ test.describe('Family Sleep Time API - POST Create Family Sleep Time', () => {
 
             // Validate message and data
             expectDefaultResponseProps(res, 403, 'Your role is not authorized')
+        })
+
+        test('should fail if the family sleep time is sent by user who dont have family', async ({ request }) => {
+            // Exec the API
+            const res = await request.post(url, {
+                headers: {
+                    Authorization: `Bearer ${userNoFamilyToken}`,
+                },
+                data: { hour_start, hour_end }
+            })
+
+            // Validate message and data
+            expectDefaultResponseProps(res, 404, 'Family not found')
         })
         
         test('should fail with failed validation : time is no valid', async ({ request }) => {
@@ -58,7 +73,7 @@ test.describe('Family Sleep Time API - POST Create Family Sleep Time', () => {
             expectDefaultResponseProps(res, 422, 'Time is not valid')
         })
 
-        test('should fail with failed validation : payload character length less than minimum', async ({ request }) => {
+        test('should fail with failed validation : payload character length is less than minimum', async ({ request }) => {
             // Exec the API
             const res = await request.post(url, {
                 headers: {

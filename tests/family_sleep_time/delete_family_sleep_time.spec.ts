@@ -2,7 +2,7 @@ import { test } from '@playwright/test'
 import { expectDefaultResponseProps } from 'helpers/assertions.helper'
 import { useLogin } from 'helpers/auth.helper'
 
-test.describe('Family Sleep Time API - DELETE Delete Family Sleep Time', () => {
+test.describe('Family Sleep Time API - DELETE Family Sleep Time', () => {
     // Test Data
     const url = '/api/v1/family_sleep_time'
     let userToken: string

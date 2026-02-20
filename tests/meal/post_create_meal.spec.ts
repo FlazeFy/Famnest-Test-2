@@ -20,7 +20,7 @@ test.describe('Meal API - POST Create Meal', () => {
     })
 
     test.describe('Success cases', () => {
-        test('should send meal successfully with valid payload', async ({ request }) => {
+        test('should create meal successfully with valid payload', async ({ request }) => {
             // Exec the API
             const res = await request.post(url, {
                 headers: {
